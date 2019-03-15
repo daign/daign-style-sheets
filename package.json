@@ -1,0 +1,58 @@
+{
+  "name": "@daign/style-sheets",
+  "version": "1.0.0",
+  "description": "Simple style sheet processor.",
+  "keywords": [
+    "style",
+    "stylesheet",
+    "typescript"
+  ],
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
+  "files": [
+    "dist/lib/**/*"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && mkdir dist && tsc",
+    "lint": "tslint '{lib,test}/**/*.ts'",
+    "test": "nyc mocha -r ts-node/register test/*.spec.ts test/**/*.spec.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daign/daign-style-sheets.git"
+  },
+  "author": "Jakob Mischek <jakob.mischek@daign.de> (https://github.com/daign)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daign/daign-style-sheets/issues"
+  },
+  "homepage": "https://github.com/daign/daign-style-sheets#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/sinon": "^7.0.6",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.3.0",
+    "sinon": "^7.2.3",
+    "source-map-support": "^0.5.10",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.12.1",
+    "tslint-no-unused-expression-chai": "^0.1.4",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {},
+  "nyc": {
+    "include": [
+      "lib/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "sourceMap": true,
+    "instrument": true
+  }
+}
