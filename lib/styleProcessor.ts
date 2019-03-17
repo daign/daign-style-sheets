@@ -5,6 +5,14 @@ import { StyleSelectorChain } from './styleSelectorChain';
 import { StyleSheet } from './styleSheet';
 
 /**
+ * Interface for partial evaluation tasks consisting of a set of rules and a selector chain.
+ */
+interface ITaskItem {
+  rules: StyleRule[];
+  chain: StyleSelector[];
+}
+
+/**
  * Class for deriving style information.
  */
 export class StyleProcessor<T extends IStyleDeclaration> {
@@ -26,21 +34,42 @@ export class StyleProcessor<T extends IStyleDeclaration> {
   ): T {
     const result = new declarationType();
 
-    const traverse = ( rules: StyleRule[], chain: StyleSelector[] ): void => {
-      const topSelector = chain[ 0 ];
-      rules.forEach( ( rule: StyleRule ): void => {
-        if ( topSelector.match( rule.selector ) ) {
-          result.overrideWith( rule.declaration );
+    // List of evaluation tasks.
+    let taskList: ITaskItem[] = [];
 
-          const restChain = chain.slice( 1 );
-          if ( restChain.length > 0 ) {
-            traverse( rule.childRules, restChain );
+    /* Populate intial task list with all style sheet rules evaluated against every right sided
+     * subarray of the selector chain. The smallest chain has the highest priority for all single
+     * hierarchy rules and thus comes last in the task list to override the lower prioritized rules
+     * that apply. */
+    for ( let i = 0; i < selectorChain.chain.length; i += 1 ) {
+      taskList.push( { rules: styleSheet.rules, chain: selectorChain.chain.slice( i ) } );
+    }
+
+    // Evaluate all tasks and create new tasks for the child rules.
+    while ( taskList.length > 0 ) {
+      const nextTaskList: ITaskItem[] = [];
+
+      taskList.forEach( ( taskItem: ITaskItem ): void => {
+        const topSelector = taskItem.chain[ 0 ];
+
+        taskItem.rules.forEach( ( rule: StyleRule ): void => {
+          if ( topSelector.match( rule.selector ) ) {
+            // Change the result with the attributes from matching rules.
+            result.overrideWith( rule.declaration );
+
+            /* Create the tasks for the child rules evaluated against the tail of the selector
+             * chain. */
+            const restChain = taskItem.chain.slice( 1 );
+            if ( restChain.length > 0 ) {
+              nextTaskList.push( { rules: rule.childRules, chain: restChain } );
+            }
           }
-        }
+        } );
       } );
-    };
 
-    traverse( styleSheet.rules, selectorChain.chain );
+      // Replace old task list with the tasks for the next round.
+      taskList = nextTaskList;
+    }
 
     return result;
   }

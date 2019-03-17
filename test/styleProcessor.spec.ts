@@ -99,7 +99,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( styleA.fill );
     } );
 
-    xit( 'should set attribute of a matching class for a child element', () => {
+    it( 'should set attribute of a matching class for a child element', () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       selectorChain.chain.push( classA );
