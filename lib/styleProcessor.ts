@@ -46,6 +46,7 @@ export class StyleProcessor<T extends IStyleDeclaration> {
     }
 
     // Evaluate all tasks and create new tasks for the child rules.
+    // Loop termination is guaranteed because the restChain gets shorter with each iteration.
     while ( taskList.length > 0 ) {
       const nextTaskList: ITaskItem[] = [];
 
