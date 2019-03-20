@@ -80,16 +80,16 @@ const ruleE = new StyleRule( classE, styleE );
 const ruleEG = new StyleRule( classG, styleEG );
 
 // Order does matter in style sheets.
-styleSheet.rules.push( ruleE );
-ruleE.childRules.push( ruleEG );
-styleSheet.rules.push( ruleD );
-ruleD.childRules.push( ruleDE );
-ruleDE.childRules.push( ruleDEF );
-styleSheet.rules.push( ruleCD );
-styleSheet.rules.push( ruleCB );
-styleSheet.rules.push( ruleBC );
-styleSheet.rules.push( ruleA );
-styleSheet.rules.push( ruleB );
+styleSheet.addRule( ruleE );
+ruleE.childRules.addRule( ruleEG );
+styleSheet.addRule( ruleD );
+ruleD.childRules.addRule( ruleDE );
+ruleDE.childRules.addRule( ruleDEF );
+styleSheet.addRule( ruleCD );
+styleSheet.addRule( ruleCB );
+styleSheet.addRule( ruleBC );
+styleSheet.addRule( ruleA );
+styleSheet.addRule( ruleB );
 
 const styleProcessor = new StyleProcessor<TestStyle>();
 
@@ -98,7 +98,7 @@ describe( 'StyleProcessor', () => {
     it( 'should return a TestStyle object', () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
-      selectorChain.chain.push( classA );
+      selectorChain.addSelector( classA );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
@@ -110,7 +110,7 @@ describe( 'StyleProcessor', () => {
     it( 'should set attribute of a matching class', () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
-      selectorChain.chain.push( classA );
+      selectorChain.addSelector( classA );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
@@ -122,8 +122,8 @@ describe( 'StyleProcessor', () => {
     it( 'should set attribute of a matching class for a child element', () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
-      selectorChain.chain.push( classB );
-      selectorChain.chain.push( classA );
+      selectorChain.addSelector( classB );
+      selectorChain.addSelector( classA );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
@@ -135,8 +135,8 @@ describe( 'StyleProcessor', () => {
     it( 'should set attribute of a matching subclass', () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
-      selectorChain.chain.push( classD );
-      selectorChain.chain.push( classE );
+      selectorChain.addSelector( classD );
+      selectorChain.addSelector( classE );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
@@ -151,9 +151,9 @@ describe( 'StyleProcessor', () => {
       classX.classNames.push( 'x' );
 
       const selectorChain = new StyleSelectorChain();
-      selectorChain.chain.push( classD );
-      selectorChain.chain.push( classX );
-      selectorChain.chain.push( classE );
+      selectorChain.addSelector( classD );
+      selectorChain.addSelector( classX );
+      selectorChain.addSelector( classE );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
@@ -166,9 +166,9 @@ describe( 'StyleProcessor', () => {
       () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
-      selectorChain.chain.push( classD );
-      selectorChain.chain.push( classE );
-      selectorChain.chain.push( classG );
+      selectorChain.addSelector( classD );
+      selectorChain.addSelector( classE );
+      selectorChain.addSelector( classG );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
@@ -180,9 +180,9 @@ describe( 'StyleProcessor', () => {
     it( 'should set attribute of a matching subsubclass', () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
-      selectorChain.chain.push( classD );
-      selectorChain.chain.push( classE );
-      selectorChain.chain.push( classF );
+      selectorChain.addSelector( classD );
+      selectorChain.addSelector( classE );
+      selectorChain.addSelector( classF );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
@@ -195,7 +195,7 @@ describe( 'StyleProcessor', () => {
       () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
-      selectorChain.chain.push( classCB );
+      selectorChain.addSelector( classCB );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
@@ -211,13 +211,13 @@ describe( 'StyleProcessor', () => {
       classAB.classNames.push( 'a' );
       classAB.classNames.push( 'b' );
       const selectorChainAB = new StyleSelectorChain();
-      selectorChainAB.chain.push( classAB );
+      selectorChainAB.addSelector( classAB );
 
       const classBA = new StyleSelector();
       classBA.classNames.push( 'b' );
       classBA.classNames.push( 'a' );
       const selectorChainBA = new StyleSelectorChain();
-      selectorChainBA.chain.push( classBA );
+      selectorChainBA.addSelector( classBA );
 
       // Act
       const resultAB = styleProcessor.calculateStyle( styleSheet, selectorChainAB, TestStyle );
@@ -232,10 +232,10 @@ describe( 'StyleProcessor', () => {
       () => {
       // Arrange
       const selectorChainBC = new StyleSelectorChain();
-      selectorChainBC.chain.push( classBC );
+      selectorChainBC.addSelector( classBC );
 
       const selectorChainCB = new StyleSelectorChain();
-      selectorChainCB.chain.push( classCB );
+      selectorChainCB.addSelector( classCB );
 
       // Act
       const resultBC = styleProcessor.calculateStyle( styleSheet, selectorChainBC, TestStyle );
@@ -255,7 +255,7 @@ describe( 'StyleProcessor', () => {
       classBCD.classNames.push( 'd' );
 
       const selectorChain = new StyleSelectorChain();
-      selectorChain.chain.push( classBCD );
+      selectorChain.addSelector( classBCD );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );

@@ -1,4 +1,5 @@
 import { IStyleDeclaration } from './styleDeclaration';
+import { StyleRuleList } from './styleRuleList';
 import { StyleSelector } from './styleSelector';
 
 /**
@@ -18,7 +19,7 @@ export class StyleRule {
   /**
    * List of child rules.
    */
-  public childRules: StyleRule[] = [];
+  public childRules: StyleRuleList = new StyleRuleList();
 
   /**
    * Constructor.

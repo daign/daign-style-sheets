@@ -1,16 +1,13 @@
-import { StyleRule } from './styleRule';
+import { StyleRuleList } from './styleRuleList';
 
 /**
  * A style sheet consisting of style rules.
  */
-export class StyleSheet {
-  /**
-   * The rules of the style sheet.
-   */
-  public rules: StyleRule[] = [];
-
+export class StyleSheet extends StyleRuleList {
   /**
    * Constructor.
    */
-  public constructor() {}
+  public constructor() {
+    super();
+  }
 }

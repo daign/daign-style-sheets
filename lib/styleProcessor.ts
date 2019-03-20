@@ -1,6 +1,6 @@
 import { IStyleDeclaration } from './styleDeclaration';
 import { StyleRule } from './styleRule';
-import { StyleSelector } from './styleSelector';
+import { StyleRuleList } from './styleRuleList';
 import { StyleSelectorChain } from './styleSelectorChain';
 import { StyleSheet } from './styleSheet';
 
@@ -8,8 +8,8 @@ import { StyleSheet } from './styleSheet';
  * Interface for partial evaluation tasks consisting of a set of rules and a selector chain.
  */
 interface ITaskItem {
-  rules: StyleRule[];
-  chain: StyleSelector[];
+  rules: StyleRuleList;
+  chain: StyleSelectorChain;
 }
 
 /**
@@ -41,8 +41,8 @@ export class StyleProcessor<T extends IStyleDeclaration> {
      * subarray of the selector chain. The smallest chain has the highest priority for all single
      * hierarchy rules and thus comes last in the task list to override the lower prioritized rules
      * that apply. */
-    for ( let i = 0; i < selectorChain.chain.length; i += 1 ) {
-      taskList.push( { rules: styleSheet.rules, chain: selectorChain.chain.slice( i ) } );
+    for ( let i = 0; i < selectorChain.length; i += 1 ) {
+      taskList.push( { rules: styleSheet, chain: selectorChain.createSubChain( i ) } );
     }
 
     // Evaluate all tasks and create new tasks for the child rules.
@@ -51,7 +51,7 @@ export class StyleProcessor<T extends IStyleDeclaration> {
       const nextTaskList: ITaskItem[] = [];
 
       taskList.forEach( ( taskItem: ITaskItem ): void => {
-        const topSelector = taskItem.chain[ 0 ];
+        const topSelector = taskItem.chain.getSelector( 0 );
 
         taskItem.rules.forEach( ( rule: StyleRule ): void => {
           if ( topSelector.match( rule.selector ) ) {
@@ -60,7 +60,7 @@ export class StyleProcessor<T extends IStyleDeclaration> {
 
             /* Create the tasks for the child rules evaluated against the tail of the selector
              * chain. */
-            const restChain = taskItem.chain.slice( 1 );
+            const restChain = taskItem.chain.createSubChain( 1 );
             if ( restChain.length > 0 ) {
               nextTaskList.push( { rules: rule.childRules, chain: restChain } );
             }
