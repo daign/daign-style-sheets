@@ -29,4 +29,19 @@ export class StyleSelector {
       return false;
     }
   }
+
+  /**
+   * Compares the priority for two selectors.
+   * @param selector The second selector.
+   * @returns -1 when priority of first is less than priority of second selector
+   *           0 when priority of both selectors is equal
+   *           1 when priority of first is greater than priority of second selector
+   */
+  public comparePriority( selector: StyleSelector ): number {
+    const sign = ( x: number ): number => Number( x > 0 ) - Number( x < 0 );
+
+    /* Selectors that contain more class names are more specific than others and should have a
+     * higher priority when processing style rules. */
+    return sign( this.classNames.length - selector.classNames.length );
+  }
 }

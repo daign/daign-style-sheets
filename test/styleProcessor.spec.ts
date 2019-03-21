@@ -37,6 +37,8 @@ const classA = new StyleSelector();
 classA.classNames.push( 'a' );
 const classB = new StyleSelector();
 classB.classNames.push( 'b' );
+const classC = new StyleSelector();
+classC.classNames.push( 'c' );
 const classBC = new StyleSelector();
 classBC.classNames.push( 'b' );
 classBC.classNames.push( 'c' );
@@ -57,6 +59,7 @@ classG.classNames.push( 'g' );
 
 const styleA = new TestStyle( 'black' );
 const styleB = new TestStyle( 'blue' );
+const styleC = new TestStyle( 'brown' );
 const styleBC = new TestStyle( 'cyan' );
 const styleCB = new TestStyle( 'gray' );
 const styleCD = new TestStyle( 'green' );
@@ -70,6 +73,7 @@ const styleSheet = new StyleSheet();
 
 const ruleA = new StyleRule( classA, styleA );
 const ruleB = new StyleRule( classB, styleB );
+const ruleC = new StyleRule( classC, styleC );
 const ruleBC = new StyleRule( classBC, styleBC );
 const ruleCB = new StyleRule( classCB, styleCB );
 const ruleCD = new StyleRule( classCD, styleCD );
@@ -90,6 +94,7 @@ styleSheet.addRule( ruleCB );
 styleSheet.addRule( ruleBC );
 styleSheet.addRule( ruleA );
 styleSheet.addRule( ruleB );
+styleSheet.addRule( ruleC );
 
 const styleProcessor = new StyleProcessor<TestStyle>();
 
@@ -191,7 +196,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( styleDEF.fill );
     } );
 
-    xit( 'should set attribute of more specific style rule',
+    it( 'should set attribute of more specific style rule',
       () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
@@ -200,8 +205,8 @@ describe( 'StyleProcessor', () => {
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
 
-      // Assert styleCB overrules styleB
-      expect( result.fill ).to.equal( styleCB.fill );
+      // Assert styleBC overrules styleB and styleC
+      expect( result.fill ).to.equal( styleBC.fill );
     } );
 
     it( 'should ignore order in selector and use the style last in the style sheet', () => {
@@ -228,7 +233,7 @@ describe( 'StyleProcessor', () => {
       expect( resultBA.fill ).to.equal( styleB.fill );
     } );
 
-    xit( 'should ignore order in selector and use the combinated style last in the style sheet',
+    it( 'should ignore order in selector and use the combinated style last in the style sheet',
       () => {
       // Arrange
       const selectorChainBC = new StyleSelectorChain();
@@ -246,7 +251,7 @@ describe( 'StyleProcessor', () => {
       expect( resultCB.fill ).to.equal( styleBC.fill );
     } );
 
-    xit( 'should ignore order of subgroups in selector and use the style last in the style sheet',
+    it( 'should ignore order of subgroups in selector and use the style last in the style sheet',
       () => {
       // Arrange
       const classBCD = new StyleSelector();
