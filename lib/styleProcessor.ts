@@ -51,16 +51,15 @@ export class StyleProcessor<T extends IStyleDeclaration> {
       const nextTaskList: ITaskItem[] = [];
 
       taskList.forEach( ( taskItem: ITaskItem ): void => {
-        const topSelector = taskItem.chain.getSelector( 0 );
-
         taskItem.rules.forEach( ( rule: StyleRule ): void => {
-          if ( topSelector.match( rule.selector ) ) {
+          const matchIndex = taskItem.chain.getFirstMatchIndex( rule.selector );
+          if ( matchIndex !== -1 ) {
             // Change the result with the attributes from matching rules.
             result.overrideWith( rule.declaration );
 
             /* Create the tasks for the child rules evaluated against the tail of the selector
              * chain. */
-            const restChain = taskItem.chain.createSubChain( 1 );
+            const restChain = taskItem.chain.createSubChain( matchIndex + 1 );
             if ( restChain.length > 0 ) {
               nextTaskList.push( { rules: rule.childRules, chain: restChain } );
             }

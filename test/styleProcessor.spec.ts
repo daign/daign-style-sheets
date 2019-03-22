@@ -150,7 +150,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( styleDE.fill );
     } );
 
-    xit( 'should set attribute of a matching subclass ignoring unused intermediate classes', () => {
+    it( 'should set attribute of a matching subclass ignoring unused intermediate classes', () => {
       // Arrange
       const classX = new StyleSelector();
       classX.classNames.push( 'x' );

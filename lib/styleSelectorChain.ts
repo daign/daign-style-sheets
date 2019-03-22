@@ -49,4 +49,19 @@ export class StyleSelectorChain {
   public getSelector( index: number ): StyleSelector {
     return this._chain[ index ];
   }
+
+  /**
+   * Get the index of the first matching selector in the chain, searched from front to end.
+   * @param selector The selector to match with.
+   * @returns The index or -1 if no entry in the chain matches.
+   */
+  public getFirstMatchIndex( selector: StyleSelector ): number {
+    for ( let i = 0; i < this.length; i += 1 ) {
+      if ( this._chain[ i ].match( selector ) ) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
 }
