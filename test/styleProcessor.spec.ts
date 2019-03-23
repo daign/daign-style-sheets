@@ -112,6 +112,31 @@ describe( 'StyleProcessor', () => {
       expect( result ).to.be.instanceof( TestStyle );
     } );
 
+    it( 'should set attribute to null if selector chain is empty', () => {
+      // Arrange
+      const selectorChain = new StyleSelectorChain();
+
+      // Act
+      const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
+
+      // Assert
+      expect( result.fill ).to.be.null;
+    } );
+
+    it( 'should set attribute to null if style sheet is empty', () => {
+      // Arrange
+      const selectorChain = new StyleSelectorChain();
+      selectorChain.addSelector( classA );
+
+      const emptyStyleSheet = new StyleSheet();
+
+      // Act
+      const result = styleProcessor.calculateStyle( emptyStyleSheet, selectorChain, TestStyle );
+
+      // Assert
+      expect( result.fill ).to.be.null;
+    } );
+
     it( 'should set attribute of a matching class', () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
@@ -129,6 +154,20 @@ describe( 'StyleProcessor', () => {
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( classB );
       selectorChain.addSelector( classA );
+
+      // Act
+      const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
+
+      // Assert
+      expect( result.fill ).to.equal( styleA.fill );
+    } );
+
+    it( 'should pass attribute of a matching class to a child element with a non-matching class',
+      () => {
+      // Arrange
+      const selectorChain = new StyleSelectorChain();
+      selectorChain.addSelector( classA );
+      selectorChain.addSelector( classF );
 
       // Act
       const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
@@ -167,8 +206,26 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( styleDE.fill );
     } );
 
-    it( 'should set attribute of the lower subclass',
+    it( 'should pass attribute of a matching subclass to a child element with a non-matching class',
       () => {
+      // Arrange
+      const classX = new StyleSelector();
+      classX.classNames.push( 'x' );
+
+      const selectorChain = new StyleSelectorChain();
+      selectorChain.addSelector( classX );
+      selectorChain.addSelector( classD );
+      selectorChain.addSelector( classE );
+      selectorChain.addSelector( classX );
+
+      // Act
+      const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
+
+      // Assert
+      expect( result.fill ).to.equal( styleDE.fill );
+    } );
+
+    it( 'should set attribute of the lower subclass', () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( classD );
@@ -196,8 +253,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( styleDEF.fill );
     } );
 
-    it( 'should set attribute of more specific style rule',
-      () => {
+    it( 'should set attribute of more specific style rule', () => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( classCB );
@@ -267,6 +323,20 @@ describe( 'StyleProcessor', () => {
 
       // Assert styleBC overrules styleCD
       expect( result.fill ).to.equal( styleBC.fill );
+    } );
+
+    xit( 'should set attribute of the deepest matching class', () => {
+      // Arrange
+      const selectorChain = new StyleSelectorChain();
+      selectorChain.addSelector( classD );
+      selectorChain.addSelector( classE );
+      selectorChain.addSelector( classA );
+
+      // Act
+      const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
+
+      // Assert styleA overrules styleDE
+      expect( result.fill ).to.equal( styleA.fill );
     } );
   } );
 } );
