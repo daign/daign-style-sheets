@@ -5,12 +5,18 @@ export class StyleSelector {
   /**
    * The class names to which the style should apply.
    */
-  public classNames: string[] = [];
+  private classNames: string[] = [];
 
   /**
    * Constructor.
+   * @param s Concatenated string of several class names to initialize with. All starting with a
+   * period, e.g. '.controlPoint.selected'.
    */
-  public constructor() {}
+  public constructor( s?: string ) {
+    if ( s && s.charAt( 0 ) === '.' ) {
+      this.classNames = s.split( '.' ).slice( 1 );
+    }
+  }
 
   /**
    * Returns whether the given selector falls into the pool of matching selectors defined by this

@@ -33,29 +33,16 @@ class TestStyle implements IStyleDeclaration {
 /**
  * Create a style sheet for the tests.
  */
-const classA = new StyleSelector();
-classA.classNames.push( 'a' );
-const classB = new StyleSelector();
-classB.classNames.push( 'b' );
-const classC = new StyleSelector();
-classC.classNames.push( 'c' );
-const classBC = new StyleSelector();
-classBC.classNames.push( 'b' );
-classBC.classNames.push( 'c' );
-const classCB = new StyleSelector();
-classCB.classNames.push( 'c' );
-classCB.classNames.push( 'b' );
-const classCD = new StyleSelector();
-classCD.classNames.push( 'c' );
-classCD.classNames.push( 'd' );
-const classD = new StyleSelector();
-classD.classNames.push( 'd' );
-const classE = new StyleSelector();
-classE.classNames.push( 'e' );
-const classF = new StyleSelector();
-classF.classNames.push( 'f' );
-const classG = new StyleSelector();
-classG.classNames.push( 'g' );
+const classA = new StyleSelector( '.a' );
+const classB = new StyleSelector( '.b' );
+const classC = new StyleSelector( '.c' );
+const classBC = new StyleSelector( '.b.c' );
+const classCB = new StyleSelector( '.c.b' );
+const classCD = new StyleSelector( '.c.d' );
+const classD = new StyleSelector( '.d' );
+const classE = new StyleSelector( '.e' );
+const classF = new StyleSelector( '.f' );
+const classG = new StyleSelector( '.g' );
 
 const styleA = new TestStyle( 'black' );
 const styleB = new TestStyle( 'blue' );
@@ -191,8 +178,7 @@ describe( 'StyleProcessor', () => {
 
     it( 'should set attribute of a matching subclass ignoring unused intermediate classes', () => {
       // Arrange
-      const classX = new StyleSelector();
-      classX.classNames.push( 'x' );
+      const classX = new StyleSelector( '.x' );
 
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( classD );
@@ -209,8 +195,7 @@ describe( 'StyleProcessor', () => {
     it( 'should pass attribute of a matching subclass to a child element with a non-matching class',
       () => {
       // Arrange
-      const classX = new StyleSelector();
-      classX.classNames.push( 'x' );
+      const classX = new StyleSelector( '.x' );
 
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( classX );
@@ -268,15 +253,11 @@ describe( 'StyleProcessor', () => {
     it( 'should ignore order in selector and use the style last in the style sheet', () => {
       // Arrange
       // Test only works if there are no rules for classAB and classBA in the style sheet.
-      const classAB = new StyleSelector();
-      classAB.classNames.push( 'a' );
-      classAB.classNames.push( 'b' );
+      const classAB = new StyleSelector( '.a.b' );
       const selectorChainAB = new StyleSelectorChain();
       selectorChainAB.addSelector( classAB );
 
-      const classBA = new StyleSelector();
-      classBA.classNames.push( 'b' );
-      classBA.classNames.push( 'a' );
+      const classBA = new StyleSelector( '.b.a' );
       const selectorChainBA = new StyleSelectorChain();
       selectorChainBA.addSelector( classBA );
 
@@ -310,10 +291,7 @@ describe( 'StyleProcessor', () => {
     it( 'should ignore order of subgroups in selector and use the style last in the style sheet',
       () => {
       // Arrange
-      const classBCD = new StyleSelector();
-      classBCD.classNames.push( 'b' );
-      classBCD.classNames.push( 'c' );
-      classBCD.classNames.push( 'd' );
+      const classBCD = new StyleSelector( '.b.c.d' );
 
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( classBCD );
