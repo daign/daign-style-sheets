@@ -10,7 +10,7 @@ export class StyleSelector {
   /**
    * Constructor.
    * @param s Concatenated string of several class names to initialize with. All starting with a
-   * period, e.g. '.controlPoint.selected'.
+   * period, e.g. '.controlPoint.selected'. Optional.
    */
   public constructor( s?: string ) {
     if ( s && s.charAt( 0 ) === '.' ) {

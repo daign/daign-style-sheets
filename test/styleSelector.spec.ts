@@ -105,9 +105,9 @@ describe( 'StyleSelector', () => {
       expect( result ).to.be.false;
     } );
 
-    it( 'should return false if both selectors are empty', () => {
+    it( 'should return false if rule selector is empty', () => {
       // Arrange
-      const elementClass = new StyleSelector();
+      const elementClass = new StyleSelector( '.a' );
       const ruleSelector = new StyleSelector();
 
       // Act
@@ -115,6 +115,80 @@ describe( 'StyleSelector', () => {
 
       // Assert
       expect( result ).to.be.false;
+    } );
+  } );
+
+  describe( 'comparePriority', () => {
+    it( 'should return 0 if number of class names is equal', () => {
+      // Arrange
+      const elementClass = new StyleSelector( '.a.b.c' );
+      const ruleSelector = new StyleSelector( '.d.e.f' );
+
+      // Act
+      const result = elementClass.comparePriority( ruleSelector );
+
+      // Assert
+      expect( result ).to.equal( 0 );
+    } );
+
+    it( 'should return 1 if first selector has more class names', () => {
+      // Arrange
+      const elementClass = new StyleSelector( '.a.b.c' );
+      const ruleSelector = new StyleSelector( '.d.e' );
+
+      // Act
+      const result = elementClass.comparePriority( ruleSelector );
+
+      // Assert
+      expect( result ).to.equal( 1 );
+    } );
+
+    it( 'should return -1 if first selector has less class names', () => {
+      // Arrange
+      const elementClass = new StyleSelector( '.a.b' );
+      const ruleSelector = new StyleSelector( '.c.d.e' );
+
+      // Act
+      const result = elementClass.comparePriority( ruleSelector );
+
+      // Assert
+      expect( result ).to.equal( -1 );
+    } );
+
+    it( 'should return 0 if both selectors are empty', () => {
+      // Arrange
+      const elementClass = new StyleSelector();
+      const ruleSelector = new StyleSelector();
+
+      // Act
+      const result = elementClass.comparePriority( ruleSelector );
+
+      // Assert
+      expect( result ).to.equal( 0 );
+    } );
+
+    it( 'should return 1 if second selector is empty', () => {
+      // Arrange
+      const elementClass = new StyleSelector( '.a.b.c' );
+      const ruleSelector = new StyleSelector();
+
+      // Act
+      const result = elementClass.comparePriority( ruleSelector );
+
+      // Assert
+      expect( result ).to.equal( 1 );
+    } );
+
+    it( 'should return -1 if first selector is empty', () => {
+      // Arrange
+      const elementClass = new StyleSelector();
+      const ruleSelector = new StyleSelector( '.a.b.c' );
+
+      // Act
+      const result = elementClass.comparePriority( ruleSelector );
+
+      // Assert
+      expect( result ).to.equal( -1 );
     } );
   } );
 } );
