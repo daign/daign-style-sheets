@@ -8,13 +8,13 @@ export class StyleSelectorChain {
   /**
    * List of StyleSelectors, starting with StyleSelector of topmost node in hierarchy.
    */
-  private _chain: StyleSelector[] = [];
+  private chain: StyleSelector[] = [];
 
   /**
    * Get the length of the chain list.
    */
   public get length(): number {
-    return this._chain.length;
+    return this.chain.length;
   }
 
   /**
@@ -23,22 +23,35 @@ export class StyleSelectorChain {
   public constructor() {}
 
   /**
-   * Add a selector to the end of the chain.
-   * @param selector The selector to add.
+   * Create and return a copy of the chain.
+   * @returns The cloned selector chain.
    */
-  public addSelector( selector: StyleSelector ): void {
-    this._chain.push( selector );
+  public clone(): StyleSelectorChain {
+    const newChain = new StyleSelectorChain();
+    newChain.chain = this.chain.slice();
+    return newChain;
   }
 
   /**
-   * Create and return a subchain.
-   * @param index The index from where to start the subchain.
-   * @returns The subchain object.
+   * Add a selector to the end of the chain.
+   * @param selector The selector to add.
+   * @returns A reference to itself.
    */
-  public createSubChain( index: number ): StyleSelectorChain {
-    const result = new StyleSelectorChain();
-    result._chain = this._chain.slice( index );
-    return result;
+  public addSelector( selector: StyleSelector ): StyleSelectorChain {
+    this.chain.push( selector );
+    return this;
+  }
+
+  /**
+   * Remove selectors from the end.
+   * @param n The number of selectors to drop from the end.
+   * @returns A reference to itself.
+   */
+  public dropSelectors( n: number ): StyleSelectorChain {
+    if ( n > 0 ) {
+      this.chain.splice( this.length - n, n );
+    }
+    return this;
   }
 
   /**
@@ -47,21 +60,79 @@ export class StyleSelectorChain {
    * @returns The style selector object.
    */
   public getSelector( index: number ): StyleSelector {
-    return this._chain[ index ];
+    if ( index >= this.length ) {
+      throw new Error( 'Selector index out of bounds.' );
+    }
+    return this.chain[ index ];
   }
 
   /**
-   * Get the index of the first matching selector in the chain, searched from front to end.
-   * @param selector The selector to match with.
-   * @returns The index or -1 if no entry in the chain matches.
+   * Determine whether the chains match. Last selector must always match. From there on all
+   * selectors from the rule chain must match to selectors in the original chain in the given order,
+   * but in the original chain there can be addional selectors.
+   * @param ruleChain The selector chain to match with.
+   * @returns The boolean result of the match.
    */
-  public getFirstMatchIndex( selector: StyleSelector ): number {
+  public matchFromEnd( ruleChain: StyleSelectorChain ): boolean {
+    if ( this.length === 0 || ruleChain.length === 0 ) {
+      return false;
+    }
+
+    let ruleIndex = ruleChain.length - 1;
+
+    // Last selectors in both chains must match.
+    const endSelector = this.getSelector( this.length - 1 );
+    if ( !endSelector.match( ruleChain.getSelector( ruleIndex ) ) ) {
+      return false;
+    }
+
+    // Process selectors from back to front.
     for ( let i = 0; i < this.length; i += 1 ) {
-      if ( this._chain[ i ].match( selector ) ) {
-        return i;
+      const selector = this.getSelector( this.length - i - 1 );
+
+      if ( selector.match( ruleChain.getSelector( ruleIndex ) ) ) {
+        // If a selector from the rule chain did match, search for next selector of the rule chain.
+        ruleIndex -= 1;
+        if ( ruleIndex === -1 ) {
+          // If ruleIndex turns negative all selectors from rule chain were matched.
+          return true;
+        }
       }
     }
 
-    return -1;
+    // There are unmatched selectors from rule chain left.
+    return false;
+  }
+
+  /**
+   * Compares the priority for two selector chains.
+   * @param secondChain The second selector chain.
+   * @returns -1 when priority of first is less than priority of second chain
+   *           0 when priority of both chains is equal
+   *           1 when priority of first is greater than priority of second chain
+   */
+  public comparePriority( secondChain: StyleSelectorChain ): number {
+    const sign = ( x: number ): number => Number( x > 0 ) - Number( x < 0 );
+
+    /* Selector chains that contain more selectors are more specific than others and should have a
+     * higher priority when processing style rules. */
+    const result = sign( this.length - secondChain.length );
+
+    if ( result === 0 ) {
+      // If the length is equal compare the selectors themselves.
+      for ( let i = 0; i < this.length; i += 1 ) {
+        // From back to front.
+        const index = this.length - i - 1;
+        const innerResult = this.getSelector( index ).comparePriority(
+          secondChain.getSelector( index )
+        );
+        // When two selectors with different priority are found this is the result.
+        if ( innerResult !== 0 ) {
+          return innerResult;
+        }
+      }
+    }
+
+    return result;
   }
 }
