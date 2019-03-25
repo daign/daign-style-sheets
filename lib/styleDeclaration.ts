@@ -3,8 +3,13 @@
  */
 export interface IStyleDeclaration {
   /**
-   * Override style attributes with values of given style declaration if not equal null.
+   * Returns whether the declaration is empty (all attributes are equal null).
+   */
+  isEmpty: boolean;
+
+  /**
+   * Copy style attributes from given style declaration but don't override already existing values.
    * @param declaration The style declaration whose values to use.
    */
-  overrideWith( declaration: IStyleDeclaration ): void;
+  complementWith( declaration: IStyleDeclaration ): void;
 }
