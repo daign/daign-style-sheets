@@ -1,15 +1,14 @@
 import { IStyleDeclaration } from './styleDeclaration';
-import { StyleRuleList } from './styleRuleList';
-import { StyleSelector } from './styleSelector';
+import { StyleSelectorChain } from './styleSelectorChain';
 
 /**
- * A style rule consisting of a style selector and a style declaration plus possible child rules.
+ * A style rule consisting of a style selector chain and a style declaration.
  */
 export class StyleRule {
   /**
    * The style selector specifying when the style should apply.
    */
-  public selector: StyleSelector;
+  public selectorChain: StyleSelectorChain;
 
   /**
    * The declaration containing the style attributes.
@@ -17,17 +16,12 @@ export class StyleRule {
   public declaration: IStyleDeclaration;
 
   /**
-   * List of child rules.
-   */
-  public childRules: StyleRuleList = new StyleRuleList();
-
-  /**
    * Constructor.
-   * @param selector The style selector.
+   * @param selectorChain The style selector chain.
    * @param declaration The style declaration.
    */
-  public constructor( selector: StyleSelector, declaration: IStyleDeclaration ) {
-    this.selector = selector;
+  public constructor( selectorChain: StyleSelectorChain, declaration: IStyleDeclaration ) {
+    this.selectorChain = selectorChain;
     this.declaration = declaration;
   }
 
@@ -38,7 +32,7 @@ export class StyleRule {
    *           0 when priority of both rules is equal
    *           1 when priority of first is greater than priority of second rule
    */
-  public comparePriority( rule: StyleRule ): number {
-    return this.selector.comparePriority( rule.selector );
+  public comparePriority( secondRule: StyleRule ): number {
+    return this.selectorChain.comparePriority( secondRule.selectorChain );
   }
 }
