@@ -1,16 +1,7 @@
 import { IStyleDeclaration } from './styleDeclaration';
 import { StyleRule } from './styleRule';
-import { StyleRuleList } from './styleRuleList';
 import { StyleSelectorChain } from './styleSelectorChain';
 import { StyleSheet } from './styleSheet';
-
-/**
- * Interface for partial evaluation tasks consisting of a set of rules and a selector chain.
- */
-interface ITaskItem {
-  rules: StyleRuleList;
-  chain: StyleSelectorChain;
-}
 
 /**
  * Class for deriving style information.
@@ -30,45 +21,24 @@ export class StyleProcessor<T extends IStyleDeclaration> {
    * @returns The calculated style declaration.
    */
   public calculateStyle(
-    styleSheet: StyleSheet, selectorChain: StyleSelectorChain, declarationType: new () => T
+    styleSheet: StyleSheet<T>, selectorChain: StyleSelectorChain, declarationType: new () => T
   ): T {
     const result = new declarationType();
 
-    // List of evaluation tasks.
-    let taskList: ITaskItem[] = [];
-
-    /* Populate intial task list with all style sheet rules evaluated against every right sided
-     * subarray of the selector chain. The smallest chain has the highest priority for all single
-     * hierarchy rules and thus comes last in the task list to override the lower prioritized rules
-     * that apply. */
+    /* Look for rules matching any left-sided subchain of the selector chain. Start with the longer
+     * subchains because they match deeper into the element hierarchy and should therefore have a
+     * higher priority. */
     for ( let i = 0; i < selectorChain.length; i += 1 ) {
-      taskList.push( { rules: styleSheet, chain: selectorChain.createSubChain( i ) } );
-    }
+      const subChain = selectorChain.clone().dropSelectors( i );
 
-    // Evaluate all tasks and create new tasks for the child rules.
-    // Loop termination is guaranteed because the restChain gets shorter with each iteration.
-    while ( taskList.length > 0 ) {
-      const nextTaskList: ITaskItem[] = [];
-
-      taskList.forEach( ( taskItem: ITaskItem ): void => {
-        taskItem.rules.forEach( ( rule: StyleRule ): void => {
-          const matchIndex = taskItem.chain.getFirstMatchIndex( rule.selector );
-          if ( matchIndex !== -1 ) {
-            // Change the result with the attributes from matching rules.
-            result.overrideWith( rule.declaration );
-
-            /* Create the tasks for the child rules evaluated against the tail of the selector
-             * chain. */
-            const restChain = taskItem.chain.createSubChain( matchIndex + 1 );
-            if ( restChain.length > 0 ) {
-              nextTaskList.push( { rules: rule.childRules, chain: restChain } );
-            }
-          }
-        } );
+      // For every rule determine whether it matches the subchain starting from the end.
+      styleSheet.forEach( ( rule: StyleRule ): void => {
+        if ( subChain.matchFromEnd( rule.selectorChain ) ) {
+          /* Add attributes from matching rules to the declaration if the values are null. Do not
+           * override any values already set because they were set by rules with higher priority. */
+          result.complementWith( rule.declaration );
+        }
       } );
-
-      // Replace old task list with the tasks for the next round.
-      taskList = nextTaskList;
     }
 
     return result;
