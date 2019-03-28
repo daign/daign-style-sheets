@@ -24,7 +24,7 @@ export class StyleSheet<T extends IStyleDeclaration> {
   /**
    * List of style rules. Sorted in descending order by priority.
    */
-  private _rules: StyleRule[] = [];
+  private rules: StyleRule[] = [];
 
   /**
    * Constructor.
@@ -37,7 +37,7 @@ export class StyleSheet<T extends IStyleDeclaration> {
    */
   public forEach( callback: ( rule: StyleRule ) => void ): void {
     // Execution from highest to lowest priority rules.
-    this._rules.forEach( callback );
+    this.rules.forEach( callback );
   }
 
   /**
@@ -119,16 +119,16 @@ export class StyleSheet<T extends IStyleDeclaration> {
      * rules is equal then the rule added last has the higher priority. Sorting must be stable.
      * Therefore this implements its own sorting method similar to insertion sort. */
     let index = 0;
-    const indexLimit = this._rules.length;
+    const indexLimit = this.rules.length;
     const isLess = -1;
 
     /* Determine the index of where to insert. As long as the rule has less priority than the rule
      * at the current index position the index is increased. */
-    while ( index < indexLimit && rule.comparePriority( this._rules[ index ] ) === isLess ) {
+    while ( index < indexLimit && rule.comparePriority( this.rules[ index ] ) === isLess ) {
       index += 1;
     }
 
     // Insert at index position.
-    this._rules.splice( index, 0, rule );
+    this.rules.splice( index, 0, rule );
   }
 }
