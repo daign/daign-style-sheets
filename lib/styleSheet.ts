@@ -72,7 +72,7 @@ export class StyleSheet<T extends IStyleDeclaration> {
       } else if ( attributeMatch !== null ) {
         // Add attribute and value to the declaration on top of the stack.
         const currentDeclaration = declarationStack[ 0 ];
-        ( currentDeclaration as any )[ attributeMatch[ 1 ] ] = attributeMatch[ 2 ];
+        currentDeclaration.parseAttribute( attributeMatch[ 1 ], attributeMatch[ 2 ] );
 
       } else if ( ruleEndMatch !== null ) {
         // Rule ends. Goes one level up in the nesting.

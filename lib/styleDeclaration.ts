@@ -8,6 +8,13 @@ export interface IStyleDeclaration {
   isEmpty: boolean;
 
   /**
+   * Parse the value of an attribute from string.
+   * @param name The name of the attribute.
+   * @param value The value as a string.
+   */
+  parseAttribute( name: string, value: string ): void;
+
+  /**
    * Copy style attributes from given style declaration but don't override already existing values.
    * @param declaration The style declaration whose values to use.
    */

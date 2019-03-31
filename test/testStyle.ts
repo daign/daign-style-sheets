@@ -6,23 +6,42 @@ import { IStyleDeclaration } from '../lib';
 export class TestStyle implements IStyleDeclaration {
   public fill: string | null = null;
   public stroke: string | null = null;
+  public strokeWidth: number | null = null;
 
   /**
    * Returns whether the declaration is empty (all attributes are equal null).
    */
   public get isEmpty(): boolean {
-    return ( this.fill === null && this.stroke === null );
+    return ( this.fill === null && this.stroke === null && this.strokeWidth === null );
   }
 
   /**
    * Constructor.
    */
-  public constructor( fill?: string, stroke?: string ) {
+  public constructor( fill?: string, stroke?: string, strokeWidth?: number ) {
     if ( fill ) {
       this.fill = fill;
     }
     if ( stroke ) {
       this.stroke = stroke;
+    }
+    if ( strokeWidth ) {
+      this.strokeWidth = strokeWidth;
+    }
+  }
+
+  /**
+   * Parse the value of an attribute from string.
+   * @param name The name of the attribute.
+   * @param value The value as a string.
+   */
+  public parseAttribute( name: string, value: string ): void {
+    if ( name === 'fill' ) {
+      this.fill = value;
+    } else if ( name === 'stroke' ) {
+      this.stroke = value;
+    } else if ( name === 'stroke-width' ) {
+      this.strokeWidth = parseFloat( value );
     }
   }
 
@@ -36,6 +55,9 @@ export class TestStyle implements IStyleDeclaration {
     }
     if ( this.stroke === null ) {
       this.stroke = declaration.stroke;
+    }
+    if ( this.strokeWidth === null ) {
+      this.strokeWidth = declaration.strokeWidth;
     }
   }
 }
