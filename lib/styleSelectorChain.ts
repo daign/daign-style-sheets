@@ -43,6 +43,16 @@ export class StyleSelectorChain {
   }
 
   /**
+   * Add a selector to the front of the chain.
+   * @param selector The selector to add.
+   * @returns A reference to itself.
+   */
+  public addSelectorToFront( selector: StyleSelector ): StyleSelectorChain {
+    this.chain.unshift( selector );
+    return this;
+  }
+
+  /**
    * Remove selectors from the end.
    * @param n The number of selectors to drop from the end.
    * @returns A reference to itself.

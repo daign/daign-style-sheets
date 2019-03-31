@@ -133,6 +133,7 @@ selectorChain.addSelector( new StyleSelector( '.document' ) );
 selectorChain.addSelector( new StyleSelector( '.button.active' ) );
 selectorChain.addSelector( new StyleSelector( '.rectangle' ) );
 selectorChain.addSelector( new StyleSelector( '.text' ) );
+// Or use .addSelectorToFront() when constructing the other way around.
 ```
 
 ### Calculating the style

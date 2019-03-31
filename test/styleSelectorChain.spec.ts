@@ -74,6 +74,23 @@ describe( 'StyleSelectorChain', () => {
     } );
   } );
 
+  describe( 'addSelectorToFront', () => {
+    it( 'should add a selector to the front of the chain', () => {
+      // Arrange
+      const selectorChain = new StyleSelectorChain();
+      selectorChain.addSelector( new StyleSelector( '.a' ) );
+      selectorChain.addSelector( new StyleSelector( '.b' ) );
+
+      // Act
+      const newSelector = new StyleSelector( '.c' );
+      selectorChain.addSelectorToFront( newSelector );
+
+      // Assert
+      expect( selectorChain.length ).to.equal( 3 );
+      expect( selectorChain.getSelector( 0 ) ).to.equal( newSelector );
+    } );
+  } );
+
   describe( 'dropSelectors', () => {
     it( 'should remove selectors from the end of the chain', () => {
       // Arrange
