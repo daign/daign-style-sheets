@@ -55,6 +55,20 @@ class MyStyle implements IStyleDeclaration {
   }
 
   /**
+   * Parse the value of an attribute from string.
+   * @param name The name of the attribute.
+   * @param value The value as a string.
+   */
+  public parseAttribute( name: string, value: string ): void {
+    // If your attributes have a different type than string, then define how they should be parsed.
+    if ( name === 'fill' ) {
+      this.fill = value;
+    } else if ( name === 'stroke' ) {
+      this.stroke = value;
+    }
+  }
+
+  /**
    * Copy style attributes from given style declaration but don't override already existing values.
    * @param declaration The style declaration whose values to use.
    */
