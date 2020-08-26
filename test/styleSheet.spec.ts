@@ -4,9 +4,9 @@ import * as sinon from 'sinon';
 import { StyleSheet } from '../lib';
 import { TestStyle } from './testStyle';
 
-describe( 'StyleSheet', () => {
-  describe( 'forEach', () => {
-    it( 'should call callback with each rule', () => {
+describe( 'StyleSheet', (): void => {
+  describe( 'forEach', (): void => {
+    it( 'should call callback with each rule', (): void => {
       // Arrange
       const text =
       `.a {
@@ -32,8 +32,8 @@ describe( 'StyleSheet', () => {
     } );
   } );
 
-  describe( 'parseFromString', () => {
-    it( 'should add rule to style sheet', () => {
+  describe( 'parseFromString', (): void => {
+    it( 'should add rule to style sheet', (): void => {
       // Arrange
       const text =
       `.a.b {
@@ -61,7 +61,7 @@ describe( 'StyleSheet', () => {
       ).to.deep.equal( [ 'c' ] );
     } );
 
-    it( 'should add rule that comes last in style sheet to first position in list', () => {
+    it( 'should add rule that comes last in style sheet to first position in list', (): void => {
       // Arrange
       const text =
       `.a {
@@ -80,7 +80,7 @@ describe( 'StyleSheet', () => {
       expect( ( firstRule.selectorChain.getSelector( 0 ) as any ).classNames[ 0 ] ).to.equal( 'b' );
     } );
 
-    it( 'should add rule with higher selector priority to first position in list', () => {
+    it( 'should add rule with higher selector priority to first position in list', (): void => {
       // Arrange
       const text =
       `.a.b {
@@ -101,7 +101,7 @@ describe( 'StyleSheet', () => {
       ).to.deep.equal( [ 'a', 'b' ] );
     } );
 
-    it( 'should add rule with higher chain priority to first position in list', () => {
+    it( 'should add rule with higher chain priority to first position in list', (): void => {
       // Arrange
       const text =
       `.a {
@@ -122,7 +122,7 @@ describe( 'StyleSheet', () => {
       expect( ( firstRule.selectorChain.getSelector( 0 ) as any ).classNames[ 0 ] ).to.equal( 'a' );
     } );
 
-    it( 'should not add rule if no attributes are declared', () => {
+    it( 'should not add rule if no attributes are declared', (): void => {
       // Arrange
       const text =
       `.a {
@@ -139,7 +139,7 @@ describe( 'StyleSheet', () => {
       expect( ( styleSheet as any ).rules.length ).to.equal( 0 );
     } );
 
-    it( 'should throw error if there are too many closing brackets', () => {
+    it( 'should throw error if there are too many closing brackets', (): void => {
       // Arrange
       const text =
       `.a {
@@ -157,7 +157,7 @@ describe( 'StyleSheet', () => {
       expect( badFn ).to.throw( 'Too many closing brackets in style sheet.' );
     } );
 
-    it( 'should throw error if there are not enough closing brackets', () => {
+    it( 'should throw error if there are not enough closing brackets', (): void => {
       // Arrange
       const text =
       `.a {
@@ -176,7 +176,7 @@ describe( 'StyleSheet', () => {
       expect( badFn ).to.throw( 'Missing closing brackets in style sheet.' );
     } );
 
-    it( 'should throw error if a line cannot be parsed', () => {
+    it( 'should throw error if a line cannot be parsed', (): void => {
       // Arrange
       const text =
       `.a {
@@ -194,7 +194,7 @@ describe( 'StyleSheet', () => {
       expect( badFn ).to.throw( 'Line 3 in style sheet could not be parsed.' );
     } );
 
-    it( 'should throw error if attribute name starts with a hyphen', () => {
+    it( 'should throw error if attribute name starts with a hyphen', (): void => {
       // Arrange
       const text =
       `.a {
@@ -211,7 +211,7 @@ describe( 'StyleSheet', () => {
       expect( badFn ).to.throw( 'Line 2 in style sheet could not be parsed.' );
     } );
 
-    it( 'should throw error if selector contains whitespace', () => {
+    it( 'should throw error if selector contains whitespace', (): void => {
       // Arrange
       const text =
       `.alpha.bravo .charlie {

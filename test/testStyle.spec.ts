@@ -2,9 +2,9 @@ import { expect } from 'chai';
 
 import { TestStyle } from './testStyle';
 
-describe( 'TestStyle', () => {
-  describe( 'getter isEmpty', () => {
-    it( 'should return true if all attributes are equal null', () => {
+describe( 'TestStyle', (): void => {
+  describe( 'getter isEmpty', (): void => {
+    it( 'should return true if all attributes are equal null', (): void => {
       // Arrange
       const style = new TestStyle();
 
@@ -15,7 +15,7 @@ describe( 'TestStyle', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return false if one attribute is not null', () => {
+    it( 'should return false if one attribute is not null', (): void => {
       // Arrange
       const style = new TestStyle();
       style.stroke = 'green';
@@ -28,8 +28,8 @@ describe( 'TestStyle', () => {
     } );
   } );
 
-  describe( 'constructor', () => {
-    it( 'should initialize all values with null', () => {
+  describe( 'constructor', (): void => {
+    it( 'should initialize all values with null', (): void => {
       // Act
       const style = new TestStyle();
 
@@ -39,7 +39,7 @@ describe( 'TestStyle', () => {
       expect( style.strokeWidth ).to.be.null;
     } );
 
-    it( 'should set values if parameters are passed', () => {
+    it( 'should set values if parameters are passed', (): void => {
       // Act
       const style = new TestStyle( 'green', 'red', 1.23 );
 
@@ -50,8 +50,8 @@ describe( 'TestStyle', () => {
     } );
   } );
 
-  describe( 'parseAttribute', () => {
-    it( 'should set the string value for attribute fill', () => {
+  describe( 'parseAttribute', (): void => {
+    it( 'should set the string value for attribute fill', (): void => {
       // Arrange
       const style = new TestStyle();
 
@@ -62,7 +62,7 @@ describe( 'TestStyle', () => {
       expect( style.fill ).to.equal( 'green' );
     } );
 
-    it( 'should parse from string to float for attribute stroke width', () => {
+    it( 'should parse from string to float for attribute stroke width', (): void => {
       // Arrange
       const style = new TestStyle();
 
@@ -74,8 +74,8 @@ describe( 'TestStyle', () => {
     } );
   } );
 
-  describe( 'complementWith', () => {
-    it( 'should set values that are null in the target style', () => {
+  describe( 'complementWith', (): void => {
+    it( 'should set values that are null in the target style', (): void => {
       // Arrange
       const targetStyle = new TestStyle();
       const sourceStyle = new TestStyle( 'green', 'red', 1.23 );
@@ -89,7 +89,7 @@ describe( 'TestStyle', () => {
       expect( targetStyle.strokeWidth ).to.equal( 1.23 );
     } );
 
-    it( 'should not override values that are not null in the target style', () => {
+    it( 'should not override values that are not null in the target style', (): void => {
       // Arrange
       const targetStyle = new TestStyle( 'green', 'red', 1.23 );
       const sourceStyle = new TestStyle( 'black', 'white', 2.34 );
@@ -103,7 +103,7 @@ describe( 'TestStyle', () => {
       expect( targetStyle.strokeWidth ).to.equal( 1.23 );
     } );
 
-    it( 'should not override with null values', () => {
+    it( 'should not override with null values', (): void => {
       // Arrange
       const targetStyle = new TestStyle( 'green', 'red', 1.23 );
       const sourceStyle = new TestStyle();
@@ -117,7 +117,7 @@ describe( 'TestStyle', () => {
       expect( targetStyle.strokeWidth ).to.equal( 1.23 );
     } );
 
-    it( 'should decide to set or not for each attribute individually', () => {
+    it( 'should decide to set or not for each attribute individually', (): void => {
       // Arrange
       const targetStyle = new TestStyle( undefined, 'red', 1.23 );
       const sourceStyle = new TestStyle( 'green', 'white' );

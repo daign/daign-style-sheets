@@ -2,9 +2,9 @@ import { expect } from 'chai';
 
 import { StyleSelector, StyleSelectorChain } from '../lib';
 
-describe( 'StyleSelectorChain', () => {
-  describe( 'getter length', () => {
-    it( 'should return the length of the chain', () => {
+describe( 'StyleSelectorChain', (): void => {
+  describe( 'getter length', (): void => {
+    it( 'should return the length of the chain', (): void => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( new StyleSelector( '.a' ) );
@@ -19,8 +19,8 @@ describe( 'StyleSelectorChain', () => {
     } );
   } );
 
-  describe( 'constructor', () => {
-    it( 'should initialize with empty chain', () => {
+  describe( 'constructor', (): void => {
+    it( 'should initialize with empty chain', (): void => {
       // Act
       const selectorChain = new StyleSelectorChain();
 
@@ -29,8 +29,8 @@ describe( 'StyleSelectorChain', () => {
     } );
   } );
 
-  describe( 'clone', () => {
-    it( 'should return a clone with the same number of selectors', () => {
+  describe( 'clone', (): void => {
+    it( 'should return a clone with the same number of selectors', (): void => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( new StyleSelector( '.a' ) );
@@ -43,7 +43,7 @@ describe( 'StyleSelectorChain', () => {
       expect( chainCopy.length ).to.equal( 2 );
     } );
 
-    it( 'should keep selectors when original chain changes', () => {
+    it( 'should keep selectors when original chain changes', (): void => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( new StyleSelector( '.a' ) );
@@ -58,8 +58,8 @@ describe( 'StyleSelectorChain', () => {
     } );
   } );
 
-  describe( 'addSelector', () => {
-    it( 'should add a selector to the end of the chain', () => {
+  describe( 'addSelector', (): void => {
+    it( 'should add a selector to the end of the chain', (): void => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( new StyleSelector( '.a' ) );
@@ -74,8 +74,8 @@ describe( 'StyleSelectorChain', () => {
     } );
   } );
 
-  describe( 'addSelectorToFront', () => {
-    it( 'should add a selector to the front of the chain', () => {
+  describe( 'addSelectorToFront', (): void => {
+    it( 'should add a selector to the front of the chain', (): void => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( new StyleSelector( '.a' ) );
@@ -91,8 +91,8 @@ describe( 'StyleSelectorChain', () => {
     } );
   } );
 
-  describe( 'dropSelectors', () => {
-    it( 'should remove selectors from the end of the chain', () => {
+  describe( 'dropSelectors', (): void => {
+    it( 'should remove selectors from the end of the chain', (): void => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       const firstSelector = new StyleSelector( '.a' );
@@ -108,7 +108,7 @@ describe( 'StyleSelectorChain', () => {
       expect( selectorChain.getSelector( 0 ) ).to.equal( firstSelector );
     } );
 
-    it( 'should keep length if parameter 0 is passed', () => {
+    it( 'should keep length if parameter 0 is passed', (): void => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       selectorChain.addSelector( new StyleSelector( '.a' ) );
@@ -123,8 +123,8 @@ describe( 'StyleSelectorChain', () => {
     } );
   } );
 
-  describe( 'getSelector', () => {
-    it( 'should get selector by index', () => {
+  describe( 'getSelector', (): void => {
+    it( 'should get selector by index', (): void => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
       const secondSelector = new StyleSelector( '.b' );
@@ -139,7 +139,7 @@ describe( 'StyleSelectorChain', () => {
       expect( result ).to.equal( secondSelector );
     } );
 
-    it( 'should throw error if the index is out of bounds', () => {
+    it( 'should throw error if the index is out of bounds', (): void => {
       // Arrange
       const selectorChain = new StyleSelectorChain();
 
@@ -153,8 +153,8 @@ describe( 'StyleSelectorChain', () => {
     } );
   } );
 
-  describe( 'matchFromEnd', () => {
-    it( 'should return true if chains are equal', () => {
+  describe( 'matchFromEnd', (): void => {
+    it( 'should return true if chains are equal', (): void => {
       // Arrange
       const elementChain = new StyleSelectorChain();
       elementChain.addSelector( new StyleSelector( '.a' ) );
@@ -171,7 +171,7 @@ describe( 'StyleSelectorChain', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return true if selectors in second chain are subsets of first chain', () => {
+    it( 'should return true if selectors in second chain are subsets of first chain', (): void => {
       // Arrange
       const elementChain = new StyleSelectorChain();
       elementChain.addSelector( new StyleSelector( '.a.b.c' ) );
@@ -188,7 +188,7 @@ describe( 'StyleSelectorChain', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return true if second chain is a subset of first chain', () => {
+    it( 'should return true if second chain is a subset of first chain', (): void => {
       // Arrange
       const elementChain = new StyleSelectorChain();
       elementChain.addSelector( new StyleSelector( '.a' ) );
@@ -208,7 +208,7 @@ describe( 'StyleSelectorChain', () => {
     } );
 
     it( 'should return false if second chain is a subset of first chain but end is different',
-      () => {
+      (): void => {
       // Arrange
       const elementChain = new StyleSelectorChain();
       elementChain.addSelector( new StyleSelector( '.a' ) );
@@ -227,7 +227,7 @@ describe( 'StyleSelectorChain', () => {
     } );
 
     it( 'should return false if end of chains are equal but rest is not',
-      () => {
+      (): void => {
       // Arrange
       const elementChain = new StyleSelectorChain();
       elementChain.addSelector( new StyleSelector( '.a' ) );
@@ -244,7 +244,7 @@ describe( 'StyleSelectorChain', () => {
       expect( result ).to.be.false;
     } );
 
-    it( 'should return false if first chain is empty', () => {
+    it( 'should return false if first chain is empty', (): void => {
       // Arrange
       const elementChain = new StyleSelectorChain();
       elementChain.addSelector( new StyleSelector( '.a' ) );
@@ -259,7 +259,7 @@ describe( 'StyleSelectorChain', () => {
       expect( result ).to.be.false;
     } );
 
-    it( 'should return false if second chain is empty', () => {
+    it( 'should return false if second chain is empty', (): void => {
       // Arrange
       const elementChain = new StyleSelectorChain();
 
@@ -275,8 +275,8 @@ describe( 'StyleSelectorChain', () => {
     } );
   } );
 
-  describe( 'comparePriority', () => {
-    it( 'should return 1 if first chain is longer', () => {
+  describe( 'comparePriority', (): void => {
+    it( 'should return 1 if first chain is longer', (): void => {
       // Arrange
       const firstChain = new StyleSelectorChain();
       firstChain.addSelector( new StyleSelector( '.a' ) );
@@ -294,7 +294,7 @@ describe( 'StyleSelectorChain', () => {
       expect( result ).to.equal( 1 );
     } );
 
-    it( 'should return -1 if first chain is shorter', () => {
+    it( 'should return -1 if first chain is shorter', (): void => {
       // Arrange
       const firstChain = new StyleSelectorChain();
       firstChain.addSelector( new StyleSelector( '.a' ) );
@@ -312,27 +312,29 @@ describe( 'StyleSelectorChain', () => {
       expect( result ).to.equal( -1 );
     } );
 
-    it( 'should return 1 if chains have equal lengths but first chain has longer selectors', () => {
-      // Arrange
-      const firstChain = new StyleSelectorChain();
-      firstChain.addSelector( new StyleSelector( '.a.b.c.d' ) );
-      firstChain.addSelector( new StyleSelector( '.e.f' ) );
-      firstChain.addSelector( new StyleSelector( '.g' ) );
+    it( 'should return 1 if chains have equal lengths but first chain has longer selectors',
+      (): void => {
+        // Arrange
+        const firstChain = new StyleSelectorChain();
+        firstChain.addSelector( new StyleSelector( '.a.b.c.d' ) );
+        firstChain.addSelector( new StyleSelector( '.e.f' ) );
+        firstChain.addSelector( new StyleSelector( '.g' ) );
 
-      const secondChain = new StyleSelectorChain();
-      secondChain.addSelector( new StyleSelector( '.h.i.j' ) );
-      secondChain.addSelector( new StyleSelector( '.k.l' ) );
-      secondChain.addSelector( new StyleSelector( '.m' ) );
+        const secondChain = new StyleSelectorChain();
+        secondChain.addSelector( new StyleSelector( '.h.i.j' ) );
+        secondChain.addSelector( new StyleSelector( '.k.l' ) );
+        secondChain.addSelector( new StyleSelector( '.m' ) );
 
-      // Act
-      const result = firstChain.comparePriority( secondChain );
+        // Act
+        const result = firstChain.comparePriority( secondChain );
 
-      // Assert
-      expect( result ).to.equal( 1 );
-    } );
+        // Assert
+        expect( result ).to.equal( 1 );
+      }
+    );
 
     it( 'should return -1 if chains have equal lengths but first chain has shorter selectors',
-      () => {
+      (): void => {
       // Arrange
       const firstChain = new StyleSelectorChain();
       firstChain.addSelector( new StyleSelector( '.a.b.c' ) );
@@ -351,7 +353,7 @@ describe( 'StyleSelectorChain', () => {
       expect( result ).to.equal( -1 );
     } );
 
-    it( 'should return 0 if both chains and all its selectors have the same length', () => {
+    it( 'should return 0 if both chains and all its selectors have the same length', (): void => {
       // Arrange
       const firstChain = new StyleSelectorChain();
       firstChain.addSelector( new StyleSelector( '.a' ) );

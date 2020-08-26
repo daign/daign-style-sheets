@@ -5,9 +5,9 @@ import { TestStyle } from './testStyle';
 
 const styleProcessor = new StyleProcessor<TestStyle>();
 
-describe( 'StyleProcessor', () => {
-  describe( 'calculateStyle', () => {
-    it( 'should return a TestStyle object', () => {
+describe( 'StyleProcessor', (): void => {
+  describe( 'calculateStyle', (): void => {
+    it( 'should return a TestStyle object', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -26,7 +26,7 @@ describe( 'StyleProcessor', () => {
       expect( result ).to.be.instanceof( TestStyle );
     } );
 
-    it( 'should set attribute to null if selector chain is empty', () => {
+    it( 'should set attribute to null if selector chain is empty', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -44,7 +44,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.be.null;
     } );
 
-    it( 'should set attribute to null if style sheet is empty', () => {
+    it( 'should set attribute to null if style sheet is empty', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
 
@@ -58,7 +58,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.be.null;
     } );
 
-    it( 'should set attribute of a matching class', () => {
+    it( 'should set attribute of a matching class', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -77,7 +77,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
-    it( 'should set attribute of a matching class for a child element', () => {
+    it( 'should set attribute of a matching class for a child element', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -101,7 +101,7 @@ describe( 'StyleProcessor', () => {
     } );
 
     it( 'should pass attribute of a matching class to a child element with a non-matching class',
-      () => {
+      (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -121,7 +121,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
-    it( 'should set attribute of a matching subclass', () => {
+    it( 'should set attribute of a matching subclass', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -147,32 +147,34 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
-    it( 'should set attribute of a matching subclass ignoring unused intermediate classes', () => {
-      // Arrange
-      const styleSheet = new StyleSheet<TestStyle>();
-      styleSheet.parseFromString(
-        `.a {
-          fill: red;
-          .c {
-            fill: green;
-          }
-        }`, TestStyle
-      );
+    it( 'should set attribute of a matching subclass ignoring unused intermediate classes',
+      (): void => {
+        // Arrange
+        const styleSheet = new StyleSheet<TestStyle>();
+        styleSheet.parseFromString(
+          `.a {
+            fill: red;
+            .c {
+              fill: green;
+            }
+          }`, TestStyle
+        );
 
-      const selectorChain = new StyleSelectorChain();
-      selectorChain.addSelector( new StyleSelector( '.a' ) );
-      selectorChain.addSelector( new StyleSelector( '.b' ) );
-      selectorChain.addSelector( new StyleSelector( '.c' ) );
+        const selectorChain = new StyleSelectorChain();
+        selectorChain.addSelector( new StyleSelector( '.a' ) );
+        selectorChain.addSelector( new StyleSelector( '.b' ) );
+        selectorChain.addSelector( new StyleSelector( '.c' ) );
 
-      // Act
-      const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
+        // Act
+        const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle );
 
-      // Assert
-      expect( result.fill ).to.equal( 'green' );
-    } );
+        // Assert
+        expect( result.fill ).to.equal( 'green' );
+      }
+    );
 
     it( 'should pass attribute of a matching subclass to a child element with a non-matching class',
-      () => {
+      (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -197,7 +199,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
-    it( 'should set attribute of the lower subclass', () => {
+    it( 'should set attribute of the lower subclass', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -237,7 +239,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
-    it( 'should set attribute of the longest subclass if classes start equally deep', () => {
+    it( 'should set attribute of the longest subclass if classes start equally deep', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -280,7 +282,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
-    it( 'should set attribute of a matching subsubclass', () => {
+    it( 'should set attribute of a matching subsubclass', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -313,7 +315,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
-    it( 'should set attribute of style rule with more specific selector', () => {
+    it( 'should set attribute of style rule with more specific selector', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -338,7 +340,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
-    it( 'should ignore order in selector and use the style last in the style sheet', () => {
+    it( 'should ignore order in selector and use the style last in the style sheet', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -366,7 +368,7 @@ describe( 'StyleProcessor', () => {
     } );
 
     it( 'should ignore order in selector and use the combinated style last in the style sheet',
-      () => {
+      (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -394,7 +396,7 @@ describe( 'StyleProcessor', () => {
     } );
 
     it( 'should ignore order of subgroups in selector and use the style last in the style sheet',
-      () => {
+      (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -417,7 +419,7 @@ describe( 'StyleProcessor', () => {
     } );
 
     it( 'should use the style last in the style sheet when both subclasses are equally long',
-      () => {
+      (): void => {
       // Arrange
       const styleSheetAC = new StyleSheet<TestStyle>();
       styleSheetAC.parseFromString(
@@ -465,7 +467,7 @@ describe( 'StyleProcessor', () => {
       expect( resultBC.fill ).to.equal( 'green' );
     } );
 
-    it( 'should set attribute of the deepest matching class', () => {
+    it( 'should set attribute of the deepest matching class', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
@@ -492,7 +494,7 @@ describe( 'StyleProcessor', () => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
-    it( 'should use parent class for attributes missing in the class of the child', () => {
+    it( 'should use parent class for attributes missing in the class of the child', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();
       styleSheet.parseFromString(
