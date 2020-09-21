@@ -77,6 +77,29 @@ describe( 'StyleProcessor', (): void => {
       expect( result.fill ).to.equal( 'green' );
     } );
 
+    it( 'should give higher priority to an element style than to a matching class', (): void => {
+      // Arrange
+      const styleSheet = new StyleSheet<TestStyle>();
+      styleSheet.parseFromString(
+        `.a {
+          fill: red;
+        }`, TestStyle
+      );
+
+      const selectorChain = new StyleSelectorChain();
+      selectorChain.addSelector( new StyleSelector( '.a' ) );
+
+      const elementStyle = new TestStyle();
+      elementStyle.fill = 'green';
+
+      // Act
+      const result = styleProcessor.calculateStyle( styleSheet, selectorChain, TestStyle,
+        elementStyle );
+
+      // Assert
+      expect( result.fill ).to.equal( 'green' );
+    } );
+
     it( 'should set attribute of a matching class for a child element', (): void => {
       // Arrange
       const styleSheet = new StyleSheet<TestStyle>();

@@ -18,12 +18,19 @@ export class StyleProcessor<T extends IStyleDeclaration> {
    * @param styleSheet The given style sheet.
    * @param selectorChain The selector chain of the element.
    * @param declarationType The type of the returned style declaration.
+   * @param elementStyle A style assigned directly to the element. Optional.
    * @returns The calculated style declaration.
    */
   public calculateStyle(
-    styleSheet: StyleSheet<T>, selectorChain: StyleSelectorChain, declarationType: new () => T
+    styleSheet: StyleSheet<T>, selectorChain: StyleSelectorChain, declarationType: new () => T,
+    elementStyle?: T
   ): T {
     const result = new declarationType();
+
+    // A style assigned directly to the element has the highest priority.
+    if ( elementStyle ) {
+      result.complementWith( elementStyle );
+    }
 
     /* Look for rules matching any left-sided subchain of the selector chain. Start with the longer
      * subchains because they match deeper into the element hierarchy and should therefore have a
