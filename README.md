@@ -1,8 +1,10 @@
 # daign-style-sheets
 
-[![NPM package][npm]][npm-url]
+[![CI][ci-icon]][ci-url]
+[![Coverage][coveralls-icon]][coveralls-url]
+[![NPM package][npm-icon]][npm-url]
 
-Simple style sheet processor.
+### Simple style sheet processor.
 
 ## Installation
 
@@ -167,17 +169,23 @@ console.log( result.fill, result.stroke );
 
 ## Scripts
 
-#### Build
+```bash
+# Build
+npm run build
 
-    npm run build
+# Run lint analysis
+npm run lint
 
-#### Run lint analysis
+# Run unit tests with code coverage
+npm run test
 
-    npm run lint
+# Get a full lcov report
+npm run coverage
+```
 
-#### Run unit tests with code coverage
-
-    npm run test
-
-[npm]: https://img.shields.io/npm/v/@daign/style-sheets.svg
+[ci-icon]: https://github.com/daign/daign-style-sheets/workflows/CI/badge.svg
+[ci-url]: https://github.com/daign/daign-style-sheets/actions
+[coveralls-icon]: https://coveralls.io/repos/github/daign/daign-style-sheets/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/daign/daign-style-sheets?branch=master
+[npm-icon]: https://img.shields.io/npm/v/@daign/style-sheets.svg
 [npm-url]: https://www.npmjs.com/package/@daign/style-sheets
