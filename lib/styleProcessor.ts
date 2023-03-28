@@ -15,10 +15,10 @@ export class StyleProcessor<T extends IStyleDeclaration> {
   /**
    * Calculate the resulting style declaration derived from the elements selector chain and the
    * style sheet.
-   * @param styleSheet The given style sheet.
-   * @param selectorChain The selector chain of the element.
-   * @param declarationType The type of the returned style declaration.
-   * @param elementStyle A style assigned directly to the element. Optional.
+   * @param styleSheet - The given style sheet.
+   * @param selectorChain - The selector chain of the element.
+   * @param declarationType - The type of the returned style declaration.
+   * @param elementStyle - A style assigned directly to the element. Optional.
    * @returns The calculated style declaration.
    */
   public calculateStyle(

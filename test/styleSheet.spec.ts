@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+import { spy } from 'sinon';
 
 import { StyleSheet } from '../lib';
 import { TestStyle } from './testStyle';
@@ -22,13 +22,13 @@ describe( 'StyleSheet', (): void => {
       const rule2 = ( styleSheet as any ).rules[ 1 ];
 
       // Act
-      const spy = sinon.spy();
-      styleSheet.forEach( spy );
+      const callbackSpy = spy();
+      styleSheet.forEach( callbackSpy );
 
       // Assert
-      expect( spy.calledTwice ).to.be.true;
-      expect( spy.getCall( 0 ).args[ 0 ] ).to.equal( rule1 );
-      expect( spy.getCall( 1 ).args[ 0 ] ).to.equal( rule2 );
+      expect( callbackSpy.calledTwice ).to.be.true;
+      expect( callbackSpy.getCall( 0 ).args[ 0 ] ).to.equal( rule1 );
+      expect( callbackSpy.getCall( 1 ).args[ 0 ] ).to.equal( rule2 );
     } );
   } );
 
@@ -42,13 +42,13 @@ describe( 'StyleSheet', (): void => {
         }
       }`;
       const styleSheet = new StyleSheet<TestStyle>();
-      const spy = sinon.spy( ( styleSheet as any ), 'addRule' );
+      const addRuleSpy = spy( ( styleSheet as any ), 'addRule' );
 
       // Act
       styleSheet.parseFromString( text, TestStyle );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( addRuleSpy.calledOnce ).to.be.true;
       expect( ( styleSheet as any ).rules.length ).to.equal( 1 );
       const rule = ( styleSheet as any ).rules[ 0 ];
       expect( rule.declaration.fill ).to.equal( 'green' );
@@ -129,13 +129,13 @@ describe( 'StyleSheet', (): void => {
         // Just a comment.
       }`;
       const styleSheet = new StyleSheet<TestStyle>();
-      const spy = sinon.spy( ( styleSheet as any ), 'addRule' );
+      const addRuleSpy = spy( ( styleSheet as any ), 'addRule' );
 
       // Act
       styleSheet.parseFromString( text, TestStyle );
 
       // Assert
-      expect( spy.notCalled ).to.be.true;
+      expect( addRuleSpy.notCalled ).to.be.true;
       expect( ( styleSheet as any ).rules.length ).to.equal( 0 );
     } );
 

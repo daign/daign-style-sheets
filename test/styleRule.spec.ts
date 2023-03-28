@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+import { spy } from 'sinon';
 
 import { StyleRule, StyleSelector, StyleSelectorChain } from '../lib';
 import { TestStyle } from './testStyle';
@@ -29,7 +29,7 @@ describe( 'StyleRule', (): void => {
 
       const firstChain = new StyleSelectorChain();
       const firstRule = new StyleRule( firstChain, declaration );
-      const spy = sinon.spy( firstChain, 'comparePriority' );
+      const comparePrioritySpy = spy( firstChain, 'comparePriority' );
 
       const secondChain = new StyleSelectorChain();
       const secondRule = new StyleRule( secondChain, declaration );
@@ -38,8 +38,8 @@ describe( 'StyleRule', (): void => {
       firstRule.comparePriority( secondRule );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
-      expect( spy.getCall( 0 ).calledWithExactly( secondChain ) ).to.be.true;
+      expect( comparePrioritySpy.calledOnce ).to.be.true;
+      expect( comparePrioritySpy.getCall( 0 ).calledWithExactly( secondChain ) ).to.be.true;
     } );
   } );
 } );

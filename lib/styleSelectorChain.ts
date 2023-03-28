@@ -34,7 +34,7 @@ export class StyleSelectorChain {
 
   /**
    * Add a selector to the end of the chain.
-   * @param selector The selector to add.
+   * @param selector - The selector to add.
    * @returns A reference to itself.
    */
   public addSelector( selector: StyleSelector ): StyleSelectorChain {
@@ -44,7 +44,7 @@ export class StyleSelectorChain {
 
   /**
    * Add a selector to the front of the chain.
-   * @param selector The selector to add.
+   * @param selector - The selector to add.
    * @returns A reference to itself.
    */
   public addSelectorToFront( selector: StyleSelector ): StyleSelectorChain {
@@ -54,7 +54,7 @@ export class StyleSelectorChain {
 
   /**
    * Remove selectors from the end.
-   * @param n The number of selectors to drop from the end.
+   * @param n - The number of selectors to drop from the end.
    * @returns A reference to itself.
    */
   public dropSelectors( n: number ): StyleSelectorChain {
@@ -66,7 +66,7 @@ export class StyleSelectorChain {
 
   /**
    * Get a selector from the chain.
-   * @param index The index of the selector to get.
+   * @param index - The index of the selector to get.
    * @returns The style selector object.
    */
   public getSelector( index: number ): StyleSelector {
@@ -80,7 +80,7 @@ export class StyleSelectorChain {
    * Determine whether the chains match. Last selector must always match. From there on all
    * selectors from the rule chain must match to selectors in the original chain in the given order,
    * but in the original chain there can be addional selectors.
-   * @param ruleChain The selector chain to match with.
+   * @param ruleChain - The selector chain to match with.
    * @returns The boolean result of the match.
    */
   public matchFromEnd( ruleChain: StyleSelectorChain ): boolean {
@@ -116,7 +116,7 @@ export class StyleSelectorChain {
 
   /**
    * Compares the priority for two selector chains.
-   * @param secondChain The second selector chain.
+   * @param secondChain - The second selector chain.
    * @returns -1 when priority of first is less than priority of second chain
    *           0 when priority of both chains is equal
    *           1 when priority of first is greater than priority of second chain

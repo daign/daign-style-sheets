@@ -33,7 +33,7 @@ export class StyleSheet<T extends IStyleDeclaration> {
 
   /**
    * Apply a callback function to every entry of the list.
-   * @param callback The callback to apply.
+   * @param callback - The callback to apply.
    */
   public forEach( callback: ( rule: StyleRule ) => void ): void {
     // Execution from highest to lowest priority rules.
@@ -42,8 +42,8 @@ export class StyleSheet<T extends IStyleDeclaration> {
 
   /**
    * Parse style sheet rules from a string.
-   * @param input The input string.
-   * @param declarationType The declaration type.
+   * @param input - The input string.
+   * @param declarationType - The declaration type.
    */
   public parseFromString( input: string, declarationType: new () => T ): void {
     const lines = input.split( '\n' );
@@ -112,7 +112,7 @@ export class StyleSheet<T extends IStyleDeclaration> {
 
   /**
    * Add a style rule to the list.
-   * @param rule The style rule to add.
+   * @param rule - The style rule to add.
    */
   private addRule( rule: StyleRule ): void {
     /* Adding should keep the list sorted. Rules with higher priority come frist. If priority of two
