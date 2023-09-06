@@ -96,7 +96,7 @@ export class StyleSheet<T extends IStyleDeclaration> {
         // Comment detected, do nothing.
 
       } else if ( emptyLineMatch !== null ) {
-        // Empty line dectected, do nothing.
+        // Empty line detected, do nothing.
 
       } else {
         // Line did not match any of the defined regular expressions for valid lines.
@@ -115,7 +115,7 @@ export class StyleSheet<T extends IStyleDeclaration> {
    * @param rule - The style rule to add.
    */
   private addRule( rule: StyleRule ): void {
-    /* Adding should keep the list sorted. Rules with higher priority come frist. If priority of two
+    /* Adding should keep the list sorted. Rules with higher priority come first. If priority of two
      * rules is equal then the rule added last has the higher priority. Sorting must be stable.
      * Therefore this implements its own sorting method similar to insertion sort. */
     let index = 0;
@@ -130,5 +130,16 @@ export class StyleSheet<T extends IStyleDeclaration> {
 
     // Insert at index position.
     this.rules.splice( index, 0, rule );
+  }
+
+  /**
+   * Return the concatenated style sheet as CSS compatible string.
+   * @returns The concatenated style sheet as CSS compatible string.
+   */
+  public printStyleSheet(): string {
+    return this.rules.map( ( rule: StyleRule ): string => {
+      return `${rule.selectorChain.printSelectorChain()} {${rule.declaration.printStyle()}}`;
+    } )
+      .join( '\n' );
   }
 }

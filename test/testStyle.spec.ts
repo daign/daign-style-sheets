@@ -131,4 +131,28 @@ describe( 'TestStyle', (): void => {
       expect( targetStyle.strokeWidth ).to.equal( 1.23 );
     } );
   } );
+
+  describe( 'printStyle', (): void => {
+    it( 'should return the concatenated style declaration', (): void => {
+      // Arrange
+      const style = new TestStyle( 'green', 'red', 1.23 );
+
+      // Act
+      const result = style.printStyle();
+
+      // Assert
+      expect( result ).to.equal( 'fill: green; stroke: red; stroke-width: 1.23' );
+    } );
+
+    it( 'should return empty string for empty declaration', (): void => {
+      // Arrange
+      const style = new TestStyle();
+
+      // Act
+      const result = style.printStyle();
+
+      // Assert
+      expect( result ).to.equal( '' );
+    } );
+  } );
 } );

@@ -1,6 +1,6 @@
 {
   "name": "@daign/style-sheets",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Simple style sheet processor.",
   "keywords": [
     "style",

@@ -60,4 +60,24 @@ export class TestStyle implements IStyleDeclaration {
       this.strokeWidth = declaration.strokeWidth;
     }
   }
+
+  /**
+   * Return the concatenated style declaration as string.
+   * @returns The concatenated style declaration as string.
+   */
+  public printStyle(): string {
+    const attributes = [];
+
+    if ( this.fill ) {
+      attributes.push( `fill: ${this.fill}` );
+    }
+    if ( this.stroke ) {
+      attributes.push( `stroke: ${this.stroke}` );
+    }
+    if ( this.strokeWidth ) {
+      attributes.push( `stroke-width: ${this.strokeWidth}` );
+    }
+
+    return attributes.join( '; ' );
+  }
 }

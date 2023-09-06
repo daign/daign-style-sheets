@@ -79,7 +79,7 @@ export class StyleSelectorChain {
   /**
    * Determine whether the chains match. Last selector must always match. From there on all
    * selectors from the rule chain must match to selectors in the original chain in the given order,
-   * but in the original chain there can be addional selectors.
+   * but in the original chain there can be additional selectors.
    * @param ruleChain - The selector chain to match with.
    * @returns The boolean result of the match.
    */
@@ -144,5 +144,16 @@ export class StyleSelectorChain {
     }
 
     return result;
+  }
+
+  /**
+   * Return the concatenated style selectors as string, separated by space.
+   * @returns The concatenated style selectors.
+   */
+  public printSelectorChain(): string {
+    return this.chain.map( ( selector: StyleSelector ): string => {
+      return selector.printSelector();
+    } )
+      .join( ' ' );
   }
 }

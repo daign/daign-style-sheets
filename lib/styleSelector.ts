@@ -10,7 +10,7 @@ export class StyleSelector {
   /**
    * Constructor.
    * @param s - Concatenated string of several class names to initialize with. All starting with a
-   * period, e.g. '.controlPoint.selected'. Optional.
+   * dot, e.g. '.controlPoint.selected'. Optional.
    */
   public constructor( s?: string ) {
     if ( s && s.charAt( 0 ) === '.' ) {
@@ -49,5 +49,21 @@ export class StyleSelector {
     /* Selectors that contain more class names are more specific than others and should have a
      * higher priority when processing style rules. */
     return sign( this.classNames.length - selector.classNames.length );
+  }
+
+  /**
+   * Return the concatenated class names as string, each starting with a dot.
+   * @returns The concatenated class names as string.
+   */
+  public printSelector(): string {
+    return this.classNames.map( ( item: string ): string => `.${item}` ).join( '' );
+  }
+
+  /**
+   * Return the concatenated class names as string, separated by spaces.
+   * @returns The concatenated class names as string.
+   */
+  public printSelectorSpaced(): string {
+    return this.classNames.join( ' ' );
   }
 }

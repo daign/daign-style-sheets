@@ -193,4 +193,52 @@ describe( 'StyleSelector', (): void => {
       expect( result ).to.equal( -1 );
     } );
   } );
+
+  describe( 'printSelector', (): void => {
+    it( 'should return the concatenated class names', (): void => {
+      // Arrange
+      const selector = new StyleSelector( '.a.b.c' );
+
+      // Act
+      const result = selector.printSelector();
+
+      // Assert
+      expect( result ).to.equal( '.a.b.c' );
+    } );
+
+    it( 'should return the empty string for empty selector', (): void => {
+      // Arrange
+      const selector = new StyleSelector( '' );
+
+      // Act
+      const result = selector.printSelector();
+
+      // Assert
+      expect( result ).to.equal( '' );
+    } );
+  } );
+
+  describe( 'printSelectorSpaced', (): void => {
+    it( 'should return the concatenated class names', (): void => {
+      // Arrange
+      const selector = new StyleSelector( '.a.b.c' );
+
+      // Act
+      const result = selector.printSelectorSpaced();
+
+      // Assert
+      expect( result ).to.equal( 'a b c' );
+    } );
+
+    it( 'should return the empty string for empty selector', (): void => {
+      // Arrange
+      const selector = new StyleSelector( '' );
+
+      // Act
+      const result = selector.printSelectorSpaced();
+
+      // Assert
+      expect( result ).to.equal( '' );
+    } );
+  } );
 } );

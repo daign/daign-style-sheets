@@ -372,4 +372,31 @@ describe( 'StyleSelectorChain', (): void => {
       expect( result ).to.equal( 0 );
     } );
   } );
+
+  describe( 'printSelectorChain', (): void => {
+    it( 'should return the concatenated style selectors', (): void => {
+      // Arrange
+      const selectorChain = new StyleSelectorChain();
+      selectorChain.addSelector( new StyleSelector( '.a.b.c' ) );
+      selectorChain.addSelector( new StyleSelector( '.d.e' ) );
+      selectorChain.addSelector( new StyleSelector( '.f' ) );
+
+      // Act
+      const result = selectorChain.printSelectorChain();
+
+      // Assert
+      expect( result ).to.equal( '.a.b.c .d.e .f' );
+    } );
+
+    it( 'should return empty string for empty chain', (): void => {
+      // Arrange
+      const selectorChain = new StyleSelectorChain();
+
+      // Act
+      const result = selectorChain.printSelectorChain();
+
+      // Assert
+      expect( result ).to.equal( '' );
+    } );
+  } );
 } );

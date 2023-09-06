@@ -228,4 +228,48 @@ describe( 'StyleSheet', (): void => {
       expect( badFn ).to.throw( 'Line 1 in style sheet could not be parsed.' );
     } );
   } );
+
+  describe( 'printStyleSheet', (): void => {
+    it( 'should return style sheet as string', (): void => {
+      // Arrange
+      const text =
+      `.a.b {
+        .c {
+          fill: green; stroke: black;
+        }
+        .d.e {
+          fill: blue;
+        }
+        fill: yellow;
+      }
+      .f {
+        fill: red;
+      }`;
+      const styleSheet = new StyleSheet<TestStyle>();
+      styleSheet.parseFromString( text, TestStyle );
+
+      // Act
+      const result = styleSheet.printStyleSheet();
+
+      // Assert
+      expect( result ).to.equal(
+`.a.b .d.e {fill: blue}
+.a.b .c {fill: green; stroke: black}
+.a.b {fill: yellow}
+.f {fill: red}`
+      );
+    } );
+
+    it( 'should return empty string for empty style sheet', (): void => {
+      // Arrange
+      const styleSheet = new StyleSheet<TestStyle>();
+      styleSheet.parseFromString( '', TestStyle );
+
+      // Act
+      const result = styleSheet.printStyleSheet();
+
+      // Assert
+      expect( result ).to.equal( '' );
+    } );
+  } );
 } );
